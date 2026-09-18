@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "Gerenciador de Tarefas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "projetoId", "value": "1" },
+    { "key": "responsavelId", "value": "1" },
+    { "key": "tarefaId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Projetos",
+      "item": [
+        {
+          "name": "Criar projeto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"nome\":\"Projeto inicial\",\"descricao\":\"Projeto de exemplo\"}" },
+            "url": "{{baseUrl}}/projetos"
+          }
+        },
+        {
+          "name": "Listar projetos",
+          "request": { "method": "GET", "url": "{{baseUrl}}/projetos" }
+        },
+        {
+          "name": "Criar tarefa com projeto inexistente",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"titulo\":\"Tarefa invalida\",\"projeto\":{\"id\":999999}}" },
+            "url": "{{baseUrl}}/tarefas"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Responsáveis",
+      "item": [
+        {
+          "name": "Criar responsável",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"nome\":\"Maria Souza\",\"email\":\"maria@example.com\"}" },
+            "url": "{{baseUrl}}/responsaveis"
+          }
+        },
+        {
+          "name": "Listar responsáveis",
+          "request": { "method": "GET", "url": "{{baseUrl}}/responsaveis" }
+        }
+      ]
+    },
+    {
+      "name": "Tarefas",
+      "item": [
+        {
+          "name": "Criar tarefa",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"titulo\":\"Revisar contrato\",\"descricao\":\"Conferir contrato\",\"prioridade\":\"ALTA\",\"prazo\":\"2026-09-30\",\"projeto\":{\"id\":{{projetoId}}},\"responsavel\":{\"id\":{{responsavelId}}}}" },
+            "url": "{{baseUrl}}/tarefas"
+          }
+        },
+        {
+          "name": "Listar tarefas",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas" }
+        },
+        {
+          "name": "Filtrar por status",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas?status=NOVA" }
+        },
+        {
+          "name": "Filtrar por projeto",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas?projetoId={{projetoId}}" }
+        },
+        {
+          "name": "Consultar tarefa",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas/{{tarefaId}}" }
+        },
+        {
+          "name": "Atualizar e concluir tarefa",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"titulo\":\"Revisar contrato\",\"descricao\":\"Concluida\",\"status\":\"CONCLUIDA\",\"prioridade\":\"ALTA\",\"prazo\":\"2026-09-30\",\"projeto\":{\"id\":{{projetoId}}},\"responsavel\":{\"id\":{{responsavelId}}}}" },
+            "url": "{{baseUrl}}/tarefas/{{tarefaId}}"
+          }
+        },
+        {
+          "name": "Atribuir responsável",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"titulo\":\"Revisar contrato\",\"descricao\":\"Responsavel atribuido\",\"status\":\"EM_ANDAMENTO\",\"prioridade\":\"ALTA\",\"prazo\":\"2026-09-30\",\"projeto\":{\"id\":{{projetoId}}},\"responsavel\":{\"id\":{{responsavelId}}}}" },
+            "url": "{{baseUrl}}/tarefas/{{tarefaId}}"
+          }
+        },
+        {
+          "name": "Remover tarefa",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/tarefas/{{tarefaId}}" }
+        },
+        {
+          "name": "Consultar tarefa removida",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas/{{tarefaId}}" }
+        },
+        {
+          "name": "Consultar tarefa inexistente",
+          "request": { "method": "GET", "url": "{{baseUrl}}/tarefas/999999" }
+        }
+      ]
+    }
+  ]
+}
